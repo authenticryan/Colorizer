@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nextImage"
+        android:icon="@drawable/ic_add_a_photo_black_24dp"
+        android:title="@string/next_image_text"
+        android:visible="true"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/color"
+        android:enabled="true"
+        android:title="@string/color_text"
+        android:visible="true"
+        app:showAsAction="always" />
+
+    <group android:id="@+id/colorGroup">
+        <item
+            android:id="@+id/redColorFilter"
+            android:checkable="true"
+            android:title="@string/red_color_text"
+            android:visible="true" />
+        <item
+            android:id="@+id/greenColorFilter"
+            android:checkable="true"
+            android:title="@string/green_color_text"
+            android:visible="true" />
+        <item
+            android:id="@+id/blueColorFilter"
+            android:checkable="true"
+            android:title="@string/blue_color_text"
+            android:visible="true" />
+    </group>
+    <item
+        android:id="@+id/reset_colors"
+        android:title="@string/reset_menu_option_text"
+        android:visible="true" />
+</menu>

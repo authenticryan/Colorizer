@@ -1,9 +1,14 @@
 package com.teamtreehouse.colorizer;
 
+import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -21,9 +26,79 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        imageView = (ImageView)findViewById(R.id.imageView);
+        imageView = findViewById(R.id.imageView);
         loadImage();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+//        The below options were to create a menu from code
+//        MenuItem menuItem = menu.add("Next Item");
+//        menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+//        menuItem.setIcon(R.drawable.ic_add_a_photo_black_24dp);
+//        menuItem.getIcon().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+
+        getMenuInflater().inflate(R.menu.options_menu, menu);
+
+        Drawable nextDrawableImage = menu.findItem(R.id.nextImage).getIcon();
+        nextDrawableImage.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+
+        menu.findItem(R.id.redColorFilter).setChecked(red);
+        menu.findItem(R.id.blueColorFilter).setChecked(blue);
+        menu.findItem(R.id.greenColorFilter).setChecked(green);
+
+        menu.setGroupVisible(R.id.colorGroup, color);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.nextImage:
+                imageIndex++;
+                if (imageIndex >= imageResIds.length)
+                    imageIndex = 0;
+                loadImage();
+                break;
+
+            case R.id.color:
+                color = !color;
+                updateSaturation();
+                invalidateOptionsMenu();
+                break;
+
+            case R.id.redColorFilter:
+                red = !red;
+                updateColors();
+                item.setChecked(red);
+                break;
+
+            case R.id.greenColorFilter:
+                green = !green;
+                updateColors();
+                item.setChecked(green);
+                break;
+
+            case R.id.blueColorFilter:
+                blue = !blue;
+                updateColors();
+                item.setChecked(blue);
+                break;
+
+            case R.id.reset_colors:
+                imageView.clearColorFilter();
+                red = green = blue = true;
+                invalidateOptionsMenu();
+
+                break;
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
 
     private void loadImage() {
         Glide.with(this).load(imageResIds[imageIndex]).into(imageView);
